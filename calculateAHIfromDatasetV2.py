@@ -5,7 +5,7 @@ import re
 import os
 from tqdm import tqdm
 
-# Define AHI severity thresholds
+# Defining the AHI severity thresholds
 def categorize_osa(ahi):
     """Categorizes the OSA severity based on AHI value."""
     if ahi < 5:
