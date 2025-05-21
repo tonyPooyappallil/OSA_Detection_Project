@@ -1,3 +1,4 @@
+# Imported required libraries
 import pandas as pd
 import numpy as np
 import torch
@@ -6,6 +7,7 @@ from PIL import Image
 import os
 from sklearn.preprocessing import LabelEncoder
 
+# Created function to use pre-trained image model and turn face images into feature vectors for analysis
 def extract_image_features(image_paths, image_size=(224, 224)):
     model = models.resnet18(pretrained=True)
     model.fc = torch.nn.Identity()
@@ -19,6 +21,7 @@ def extract_image_features(image_paths, image_size=(224, 224)):
                              std=[0.229, 0.224, 0.225])
     ])
 
+# Created for loop for each image and extract features using the model, if the image is missing then placeholder
     features = []
     for path in image_paths:
         if os.path.exists(path):
@@ -28,9 +31,11 @@ def extract_image_features(image_paths, image_size=(224, 224)):
                 feat = model(img_tensor).squeeze().numpy()
             features.append(feat)
         else:
-            features.append(np.zeros(512))  # fallback for missing image
+            features.append(np.zeros(512))  
 
     return np.array(features)
+
+# Created function to load patient data, encode labels, extract image features, and prepare for model training
 
 def prepare_data_with_images(csv_path, image_folder):
     df = pd.read_csv(csv_path)

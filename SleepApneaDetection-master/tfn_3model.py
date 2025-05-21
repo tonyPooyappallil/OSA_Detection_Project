@@ -1,5 +1,8 @@
+# Imported required libraries
 import torch
 import torch.nn as nn
+
+# Crated function for the model that takes clinical, signal, and image features, processes each separately, then combines them to predict OSA severity
 
 class TFN_3Modal(nn.Module):
     def __init__(self, clinical_dim, signal_dim, image_dim, fusion_dim=128, num_classes=4):
