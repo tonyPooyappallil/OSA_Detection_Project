@@ -1,6 +1,8 @@
+# Imported required libraries
 import torch
 import torch.nn as nn
 
+# To define small neural network to process clinical data like age, sex, AHI
 class TFN(nn.Module):
     def __init__(self, clinical_dim, signal_dim, fusion_dim=64, num_classes=4):
         super(TFN, self).__init__()
@@ -28,6 +30,7 @@ class TFN(nn.Module):
             nn.Linear(fusion_dim, num_classes)
         )
 
+    # Created function  to process clinical and signal data separately, combine them, and send through the final layer to make predictions
     def forward(self, clinical_input, signal_input):
         clinical_out = self.clinical_net(clinical_input)
         signal_out = self.signal_net(signal_input)
