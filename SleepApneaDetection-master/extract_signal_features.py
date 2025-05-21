@@ -1,27 +1,28 @@
+# Imported required libraries
 import os
 import scipy.io
 import pandas as pd
 import numpy as np
 
-# Folder that contains patient subfolders like 'tr03-0005'
+# To set the main folder location and create an empty list to store signal features
 base_path = r"D:\Dataset\training"
 signal_features = []
 
-# Loop through each patient folder
+# Created for loop through each patient folder
 for folder_name in os.listdir(base_path):
     folder_path = os.path.join(base_path, folder_name)
     mat_file_path = os.path.join(folder_path, f"{folder_name}.mat")
     
     if os.path.exists(mat_file_path):
         try:
-            # Load .mat file
+            # To load .mat file
             mat = scipy.io.loadmat(mat_file_path)
 
-            # Find the correct key containing signal data (ignore __ keys)
+            # To find the correct key containing signal data 
             signal_key = [k for k in mat.keys() if not k.startswith('__')][0]
             signal_data = mat[signal_key].flatten()
 
-            # Extract basic features
+            # To extract basic features
             features = {
                 'Record': folder_name,
                 'Signal_Mean': np.mean(signal_data),
@@ -34,7 +35,7 @@ for folder_name in os.listdir(base_path):
         except Exception as e:
             print(f"Failed to process {folder_name}: {e}")
 
-# Save features to CSV
+# To save features to CSV
 signal_df = pd.DataFrame(signal_features)
 signal_df.to_csv("D:/Dataset/signal_features.csv", index=False)
 print("Signal features saved to signal_features.csv")
